@@ -230,9 +230,15 @@ DataFrame* DataFrame::getColumns(int* columns, int cLen) {
     }
     
         /** Row names **/
-    cout<<"rowname0"<<rowNames[0]<<endl;
     for (int i = 0; i < noRows; ++i) {
         (*temp).rowNames[i] = rowNames[i];
+    }
+    
+    for (int i = 0; i < noRows; ++i) {
+        for (int j = 0; j < cLen; ++j) {
+            (*temp).table[i][j] = table[i][columns[j]];
+        }
+//        cout << endl;
     }
 
     return temp;
