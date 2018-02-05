@@ -57,75 +57,80 @@ DataFrame::DataFrame(int rows, int cols) { // DONE: CHECK IT
     
     /** Set up the table itself **/
     
-    this->table = new int*[noRows]; // double pointers allow us to initialize an array of rows size where each element in the array has cols size.
+    table = new int*[noRows]; // double pointers allow us to initialize an array of rows size where each element in the array has cols size.
     
     for (int i = 0; i < noRows; ++i) {
-        this->table[i] = new int[noCols]; // each row has spaces for noCols
+        table[i] = new int[noCols]; // each row has spaces for noCols
     }
     
     /** Set up Table Names **/
     
-    this->colNames = new char*[noCols]; // a 1-d array with cols number of names
+    colNames = new char*[noCols]; // a 1-d array with cols number of names
     
     int j=0;
     char c;
     
     for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
-        this->colNames[i] = new char[100];
+        colNames[i] = new char[100];
     }
     for (int i=0; i < noCols; i++) {
         cin.get(c); //read the first character
         j = 0;
         do {
-            this->colNames[i][j] = c;
+            colNames[i][j] = c;
             j++;
             cin.get(c);
         } while ((c != ',') && (c != '\n'));
-        this->colNames[i][j] = '\0';
+        colNames[i][j] = '\0';
     }
     
-    this->rowNames = new char*[noRows]; // a 1-d array with rows number of names
+    rowNames = new char*[noRows]; // a 1-d array with rows number of names
     
     int k=0;
     char e;
     
     for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
-        this->rowNames[i] = new char[100];
+        rowNames[i] = new char[100];
     }
     for (int i=0; i < noRows; i++) {
         cin.get(e); //read the first character
         k = 0;
         do {
-            this->rowNames[i][k++] = e;
+            rowNames[i][k++] = e;
             cin.get(e);
         } while ((e != ',') && (e != '\n'));
-        this->rowNames[i][k] = '\0';
+        rowNames[i][k] = '\0';
     }
     
     for (int i=0; i < noRows; i++)
         for (int j=0; j < noCols; j++)
-            //            cin >> table[i][j];
             cin >> table[i][j];
     
 }
 
+// using the display method, print (in the same format as the input):
+// - the column names of the dataframe
+// - the row names of the dataframe
+// - the contents of the table in dataframe
 void DataFrame::display() {
-    // using the display method, print (in the same format as the input):
-    // - the column names of the dataframe
-    // - the row names of the dataframe
-    // - the contents of the table in dataframe
-    
+
     /** Column names **/
     
     for (int i = 0; i < noCols; ++i) {
-        cout << colNames[i] << " ";
+        cout << colNames[i];
+        if (i != (noCols - 1)) {
+            cout << ",";
+        }
     }
     cout << endl;
     
     /** Row names **/
     
     for (int i = 0; i < noRows; ++i) {
-        cout << rowNames[i] << " ";
+        cout << rowNames[i];
+        if (i != (noRows - 1)) {
+            cout << ",";
+        }
     }
     cout << endl;
     
@@ -136,26 +141,37 @@ void DataFrame::display() {
         }
         cout << endl;
     }
-    cout << endl;
 }
 
 void DataFrame::setRowName(int row, const char* name) {
-
+    //    char c;
+    //    int j;
+    //    for (int i=0; i < noRows; i++) {
+    //        cin.get(c); //read the first character
+    //        j = 0;
+    //        do {
+    //            rowNames[i][j++] = c;
+    //            cin.get(c);
+    //        } while ((c != ',') && (c != '\n'));
+    //        rowNames[i][j] = '\0';
+    //        cout << rowNames[i] << endl;
+    //    }
+    
 }
 
 void DataFrame::setColName(int col, const char* name) {
-//    char c;
-//    int j;
-//    for (int i=0; i < noCols; i++) {
-//        cin.get(c); //read the first character
-//        j = 0;
-//        do {
-//            colNames[i][j++] = c;
-//            cin.get(c);
-//        } while ((c != ',') && (c != '\n'));
-//        colNames[i][j] = '\0';
-//        cout << colNames[i] << endl;
-//    }
+    //    char c;
+    //    int j;
+    //    for (int i=0; i < noCols; i++) {
+    //        cin.get(c); //read the first character
+    //        j = 0;
+    //        do {
+    //            colNames[i][j++] = c;
+    //            cin.get(c);
+    //        } while ((c != ',') && (c != '\n'));
+    //        colNames[i][j] = '\0';
+    //        cout << colNames[i] << endl;
+    //    }
     
     
 }
@@ -180,36 +196,60 @@ int DataFrame::getNumberCols() { // DONE: CHECK IT
     return noCols;
 }
 DataFrame* DataFrame::getColumns(int* columns, int cLen) {
-    // Returns a DataFrame of column names.
     
     DataFrame* temp = new DataFrame();
     
     (*temp).noCols = cLen;
     (*temp).noRows = noRows;
     
-//    cout << "clen " << cLen;
-//    
-//    for (int i = 0; i < cLen; ++i) {
-//        for (int j = 0; j < noRows; ++j) {
-//            cout << "here";
-//            (*temp).table[i][j] = j;
-//            cout << "!!! " << table[i][j];
-//        }
-//    }
+    /** Set up the table itself **/
+    
+    (*temp).table = new int*[noRows]; // double pointers allow us to initialize an array of rows size where each element in the array has cols size.
+    
+    for (int i = 0; i < noRows; ++i) {
+        (*temp).table[i] = new int[cLen]; // each row has spaces for cLen
+    }
+    
+    /** Set up Table Names **/
+    
+    (*temp).colNames = new char*[cLen]; // a 1-d array with cols number of names
+
+    for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
+        (*temp).colNames[i] = new char[100];
+    }
+    
+    (*temp).rowNames = new char*[noRows]; // a 1-d array with rows number of names
+    
+    for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
+        rowNames[i] = new char[100];
+    }
+    
+    /** Column names **/
+    
+    for (int i = 0; i < cLen; ++i) {
+        (*temp).colNames[i] = colNames[columns[i]];
+    }
+    
+    /** Row names **/
+    
+    for (int i = 0; i < noRows; ++i) {
+        (*temp).rowNames[i] = rowNames[i];
+    }
+
     return temp;
 }
 
 DataFrame* DataFrame::getRows(int* rows, int rLen) { // CHECK IF CORRECT!
     DataFrame *frame = new DataFrame(rLen, 0);
-
+    
     for (int i = 0; i < rLen; ++i) {
-//        frame[i] = table[i];
+        //        frame[i] = table[i];
     }
     return frame;
 }
 DataFrame* DataFrame::getRowsCols(int* rows, int rLen, int* cols, int cLen) {
     
-//    DataFrame *frame = new DataFrame(rLen, );
+    //    DataFrame *frame = new DataFrame(rLen, );
     return NULL;
 }
 
@@ -223,15 +263,15 @@ int main () {
     int c, r;
     int selectC[3];
     int selectR[10];
-
+    
     // Read the dataframe from input
     // First line: two numbers seperated by space;
     // first number is the number of rows (r) and
     // second number is the number of columns (c)
-
+    
     cin >> r >> c;
     DataFrame* firstDF = new DataFrame(r,c);
-
+    
     // Second line: strings separated by a comma (c of them); representing column names
     // Third line: strings seperated by a comma (r of them); representing row names
     // Fourth line and more: c number of integers in each of the r rows (seperated by) // a space between integers in the same row.
@@ -247,44 +287,44 @@ int main () {
     // Read the column numbers that you want to extract
     
     for (int i=0; i < 3; i++) cin >> selectC[i];
-
+    
     DataFrame* tempColumns = (*firstDF).getColumns(selectC, 3);
-
-    cout << "here " << endl;
+    
     (*tempColumns).display();
-
+    
     // Change the row names of select rows
-
-    (*tempColumns).setRowName(2, "Jack"); (*tempColumns).setRowName(3, "Peter");
-
-    (*tempColumns).display();
-
-    // Read the row numbers that you want to extract
-
-    for (int i=0; i < 10; i++) cin >> selectR[i];
-
-    DataFrame* tempRows = (*firstDF).getRows(selectR, 10);
-
-    (*tempRows).display();
-
-    // Change the column names of selected columns
-
-    (*tempRows).setColName(2, "Scores");
-    (*tempRows).setColName(3, "Values");
-
-    (*tempRows).display();
-
-    // Extract the rows in SelectR and columns in SelectC
-
-    DataFrame* tempColsRows = (*firstDF).getRowsCols(selectR, 10, selectC, 3);
-
-    (*tempColsRows).display();
-
-    delete tempRows;
-
-    delete tempColumns;
-
-    delete tempColsRows; // Sample Code for you and you must execute this DataFrame* myTable = new DataFrame(5,5); for (int i =0; i < 5; i++) { for (int j=0; j < 5; j++) { (*myTable)[i][j] = i*j; } } (*myTable).display(); delete myTable;
-
+    
+//    (*tempColumns).setRowName(2, "Jack"); (*tempColumns).setRowName(3, "Peter");
+//
+//    (*tempColumns).display();
+//
+//    // Read the row numbers that you want to extract
+//
+//    for (int i=0; i < 10; i++) cin >> selectR[i];
+//
+//    DataFrame* tempRows = (*firstDF).getRows(selectR, 10);
+//
+//    (*tempRows).display();
+//
+//    // Change the column names of selected columns
+//
+//    (*tempRows).setColName(2, "Scores");
+//    (*tempRows).setColName(3, "Values");
+//
+//    (*tempRows).display();
+//
+//    // Extract the rows in SelectR and columns in SelectC
+//
+//    DataFrame* tempColsRows = (*firstDF).getRowsCols(selectR, 10, selectC, 3);
+//
+//    (*tempColsRows).display();
+//
+//    delete tempRows;
+//
+//    delete tempColumns;
+//
+//    delete tempColsRows; // Sample Code for you and you must execute this DataFrame* myTable = new DataFrame(5,5); for (int i =0; i < 5; i++) { for (int j=0; j < 5; j++) { (*myTable)[i][j] = i*j; } } (*myTable).display(); delete myTable;
+    
     return 0;
 }
+
