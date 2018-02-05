@@ -28,8 +28,8 @@ public:
     void display();
     
     //Setters
-    void setRowName(int row, const char* name);
-    void setColName(int col, const char* name);
+    void setRowName(int row, char* name);
+    void setColName(int col, char* name);
     int* operator[] (int i); // return row i
     
     //Getters
@@ -143,37 +143,12 @@ void DataFrame::display() {
     }
 }
 
-void DataFrame::setRowName(int row, const char* name) {
-    //    char c;
-    //    int j;
-    //    for (int i=0; i < noRows; i++) {
-    //        cin.get(c); //read the first character
-    //        j = 0;
-    //        do {
-    //            rowNames[i][j++] = c;
-    //            cin.get(c);
-    //        } while ((c != ',') && (c != '\n'));
-    //        rowNames[i][j] = '\0';
-    //        cout << rowNames[i] << endl;
-    //    }
-    
+void DataFrame::setRowName(int row, char* name) {
+    rowNames[row] = name;
 }
 
-void DataFrame::setColName(int col, const char* name) {
-    //    char c;
-    //    int j;
-    //    for (int i=0; i < noCols; i++) {
-    //        cin.get(c); //read the first character
-    //        j = 0;
-    //        do {
-    //            colNames[i][j++] = c;
-    //            cin.get(c);
-    //        } while ((c != ',') && (c != '\n'));
-    //        colNames[i][j] = '\0';
-    //        cout << colNames[i] << endl;
-    //    }
-    
-    
+void DataFrame::setColName(int col, char* name) {
+    colNames[col] = name;
 }
 
 int* DataFrame::operator[](int i) { // return row i
@@ -325,49 +300,63 @@ int main () {
     // - the row names of the dataframe
     // - the contents of the table in dataframe
     
-//    (*firstDF).display();
+    (*firstDF).display();
     
     // Execute the following code
     // Read the column numbers that you want to extract
     
-//    for (int i=0; i < 3; i++) cin >> selectC[i];
+    for (int i=0; i < 3; i++) cin >> selectC[i];
     
-//    DataFrame* tempColumns = (*firstDF).getColumns(selectC, 3);
+    DataFrame* tempColumns = (*firstDF).getColumns(selectC, 3);
     
-//    (*tempColumns).display();
+    (*tempColumns).display();
     
     // Change the row names of select rows
     
-//    (*tempColumns).setRowName(2, "Jack"); (*tempColumns).setRowName(3, "Peter");
-//
-//    (*tempColumns).display();
-//
-//    // Read the row numbers that you want to extract
-//
+    (*tempColumns).setRowName(2, "Jack"); (*tempColumns).setRowName(3, "Peter");
+
+    (*tempColumns).display();
+
+    // Read the row numbers that you want to extract
+
     for (int i=0; i < 10; i++) cin >> selectR[i];
 
     DataFrame* tempRows = (*firstDF).getRows(selectR, 10);
 
     (*tempRows).display();
-//
-//    // Change the column names of selected columns
-//
-//    (*tempRows).setColName(2, "Scores");
-//    (*tempRows).setColName(3, "Values");
-//
-//    (*tempRows).display();
-//
-//    // Extract the rows in SelectR and columns in SelectC
-//
-//    DataFrame* tempColsRows = (*firstDF).getRowsCols(selectR, 10, selectC, 3);
-//
-//    (*tempColsRows).display();
-//
-//    delete tempRows;
-//
-//    delete tempColumns;
-//
-//    delete tempColsRows; // Sample Code for you and you must execute this DataFrame* myTable = new DataFrame(5,5); for (int i =0; i < 5; i++) { for (int j=0; j < 5; j++) { (*myTable)[i][j] = i*j; } } (*myTable).display(); delete myTable;
+
+    // Change the column names of selected columns
+
+    (*tempRows).setColName(2, "Scores");
+    (*tempRows).setColName(3, "Values");
+
+    (*tempRows).display();
+
+    // Extract the rows in SelectR and columns in SelectC
+
+    DataFrame* tempColsRows = (*firstDF).getRowsCols(selectR, 10, selectC, 3);
+
+    (*tempColsRows).display();
+
+    delete tempRows;
+
+    delete tempColumns;
+
+    delete tempColsRows;
+    
+    // Sample Code for you and you must execute this
+    DataFrame* myTable = new DataFrame(5,5);
+    
+    for (int i =0; i < 5; i++) {
+        for (int j=0; j < 5; j++) {
+            (*myTable)[i][j] = i*j;
+            
+        }
+    }
+    
+    (*myTable).display();
+    
+    delete myTable;
     
     return 0;
 }
