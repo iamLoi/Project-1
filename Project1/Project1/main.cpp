@@ -245,12 +245,51 @@ DataFrame* DataFrame::getColumns(int* columns, int cLen) {
 }
 
 DataFrame* DataFrame::getRows(int* rows, int rLen) { // CHECK IF CORRECT!
-    DataFrame *frame = new DataFrame(rLen, 0);
+    
+    DataFrame* temp = new DataFrame();
+    
+    (*temp).noCols = noCols;
+    (*temp).noRows = rLen;
+    
+    /** Set up the table itself **/
+    
+    (*temp).table = new int*[rLen]; // double pointers allow us to initialize an array of rows size where each element in the array has cols size.
     
     for (int i = 0; i < rLen; ++i) {
-        //        frame[i] = table[i];
+        (*temp).table[i] = new int[noCols]; // each row has spaces for cLen
     }
-    return frame;
+    
+    /** Set up Table Names **/
+    
+    (*temp).colNames = new char*[noCols]; // a 1-d array with cols number of names
+    
+    for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
+        (*temp).colNames[i] = new char[100];
+    }
+    
+    (*temp).rowNames = new char*[rLen]; // a 1-d array with rows number of names
+    
+    for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
+        (*temp).rowNames[i] = new char[100];
+    }
+    
+    /** Column names **/
+    for (int i = 0; i < noCols; ++i) {
+        (*temp).colNames[i] = colNames[i];
+    }
+    
+    /** Row names **/
+    for (int i = 0; i < rLen; ++i) {
+        (*temp).rowNames[i] = rowNames[rows[i]];
+    }
+    
+    for (int i = 0; i < rLen; ++i) {
+        for (int j = 0; j < noCols; ++j) {
+            (*temp).table[i][j] = table[rows[i]][j];
+        }
+    }
+    
+    return temp;
 }
 DataFrame* DataFrame::getRowsCols(int* rows, int rLen, int* cols, int cLen) {
     
@@ -286,16 +325,16 @@ int main () {
     // - the row names of the dataframe
     // - the contents of the table in dataframe
     
-    (*firstDF).display();
+//    (*firstDF).display();
     
     // Execute the following code
     // Read the column numbers that you want to extract
     
-    for (int i=0; i < 3; i++) cin >> selectC[i];
+//    for (int i=0; i < 3; i++) cin >> selectC[i];
     
-    DataFrame* tempColumns = (*firstDF).getColumns(selectC, 3);
+//    DataFrame* tempColumns = (*firstDF).getColumns(selectC, 3);
     
-    (*tempColumns).display();
+//    (*tempColumns).display();
     
     // Change the row names of select rows
     
@@ -305,11 +344,11 @@ int main () {
 //
 //    // Read the row numbers that you want to extract
 //
-//    for (int i=0; i < 10; i++) cin >> selectR[i];
-//
-//    DataFrame* tempRows = (*firstDF).getRows(selectR, 10);
-//
-//    (*tempRows).display();
+    for (int i=0; i < 10; i++) cin >> selectR[i];
+
+    DataFrame* tempRows = (*firstDF).getRows(selectR, 10);
+
+    (*tempRows).display();
 //
 //    // Change the column names of selected columns
 //
