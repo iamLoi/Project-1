@@ -221,17 +221,16 @@ DataFrame* DataFrame::getColumns(int* columns, int cLen) {
     (*temp).rowNames = new char*[noRows]; // a 1-d array with rows number of names
     
     for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
-        rowNames[i] = new char[100];
+        (*temp).rowNames[i] = new char[100];
     }
     
-    /** Column names **/
-    
+        /** Column names **/
     for (int i = 0; i < cLen; ++i) {
         (*temp).colNames[i] = colNames[columns[i]];
     }
     
-    /** Row names **/
-    
+        /** Row names **/
+    cout<<"rowname0"<<rowNames[0]<<endl;
     for (int i = 0; i < noRows; ++i) {
         (*temp).rowNames[i] = rowNames[i];
     }
