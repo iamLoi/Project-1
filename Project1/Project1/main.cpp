@@ -63,48 +63,48 @@ DataFrame::DataFrame(int rows, int cols) { // DONE: CHECK IT
         table[i] = new int[noCols]; // each row has spaces for noCols
     }
     
-    /** Set up Table Names **/
-    
-    colNames = new char*[noCols]; // a 1-d array with cols number of names
-    
-    int j=0;
-    char c;
-    
-    for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
-        colNames[i] = new char[100];
-    }
-    for (int i=0; i < noCols; i++) {
-        cin.get(c); //read the first character
-        j = 0;
-        do {
-            colNames[i][j] = c;
-            j++;
-            cin.get(c);
-        } while ((c != ',') && (c != '\n'));
-        colNames[i][j] = '\0';
-    }
-    
-    rowNames = new char*[noRows]; // a 1-d array with rows number of names
-    
-    int k=0;
-    char e;
-    
-    for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
-        rowNames[i] = new char[100];
-    }
-    for (int i=0; i < noRows; i++) {
-        cin.get(e); //read the first character
-        k = 0;
-        do {
-            rowNames[i][k++] = e;
-            cin.get(e);
-        } while ((e != ',') && (e != '\n'));
-        rowNames[i][k] = '\0';
-    }
-    
-    for (int i=0; i < noRows; i++)
-        for (int j=0; j < noCols; j++)
-            cin >> table[i][j];
+//    /** Set up Table Names **/
+//
+//    colNames = new char*[noCols]; // a 1-d array with cols number of names
+//
+//    int j=0;
+//    char c;
+//
+//    for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
+//        colNames[i] = new char[100];
+//    }
+//    for (int i=0; i < noCols; i++) {
+//        cin.get(c); //read the first character
+//        j = 0;
+//        do {
+//            colNames[i][j] = c;
+//            j++;
+//            cin.get(c);
+//        } while ((c != ',') && (c != '\n'));
+//        colNames[i][j] = '\0';
+//    }
+//
+//    rowNames = new char*[noRows]; // a 1-d array with rows number of names
+//
+//    int k=0;
+//    char e;
+//
+//    for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
+//        rowNames[i] = new char[100];
+//    }
+//    for (int i=0; i < noRows; i++) {
+//        cin.get(e); //read the first character
+//        k = 0;
+//        do {
+//            rowNames[i][k++] = e;
+//            cin.get(e);
+//        } while ((e != ',') && (e != '\n'));
+//        rowNames[i][k] = '\0';
+//    }
+//
+//    for (int i=0; i < noRows; i++)
+//        for (int j=0; j < noCols; j++)
+//            cin >> table[i][j];
     
 }
 
@@ -319,7 +319,8 @@ int main () {
 
     // Read the row numbers that you want to extract
 
-    for (int i=0; i < 10; i++) cin >> selectR[i];
+    for (int i=0; i < 10; i++)
+        cin >> selectR[i];
 
     DataFrame* tempRows = (*firstDF).getRows(selectR, 10);
 
