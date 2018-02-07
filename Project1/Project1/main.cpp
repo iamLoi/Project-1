@@ -357,17 +357,22 @@ DataFrame* DataFrame::getRowsCols(int* rows, int rLen, int* cols, int cLen) {
 
 DataFrame::~DataFrame() { //Destructor for table
     
-    // for (int i = 0; i < noRows; ++i) {
-    //     delete [] rowNames[i];
-    //     delete [] table[i];
-    // }
-    // for (int j = 0; j < noCols; ++j) {
-    //     delete [] colNames[j];
-    // }
-    //
-    // delete[] rowNames;
-    // delete[] colNames;
-    // delete[] table;
+    noRows = 0;
+    noCols = 0;
+    rowNames = NULL;
+    colNames = NULL;
+    
+     for (int i = 0; i < noRows; ++i) {
+         delete rowNames[i];
+         delete table[i];
+     }
+     for (int j = 0; j < noCols; ++j) {
+         delete colNames[j];
+     }
+    
+     delete[] rowNames;
+     delete[] colNames;
+     delete[] table;
 }
 
 
@@ -444,9 +449,9 @@ int main () {
     
     delete tempRows;
     
-    // delete tempColumns;
-    
-    // delete tempColsRows;
+     delete tempColumns;
+  
+     delete tempColsRows;
     
     // Sample Code for you and you must execute this
     
