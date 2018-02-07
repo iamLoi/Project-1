@@ -46,46 +46,46 @@ public:
     ~DataFrame();
 };
 
-DataFrame::DataFrame() { // DONE
+DataFrame::DataFrame() {
     // Default constructor
     // Simon (TA) said nothing needs to be done here.
 }
 
-DataFrame::DataFrame(int rows, int cols) { // DONE: CHECK IT
-    /** Set up the dataframe table **/
+// Main constructor
+DataFrame::DataFrame(int rows, int cols) {
     
+    /** Set up the dataframe table **/
     noRows = rows;
     noCols = cols;
     
     /** Set up the table itself **/
-    
     table = new int*[noRows]; // double pointers allow us to initialize an array of rows size where each element in the array has cols size.
     
     for (int i = 0; i < noRows; ++i) {
         table[i] = new int[noCols]; // each row has spaces for noCols
     }
     
-    colNames = new char*[noCols]; // a 1-d array with cols number of names
-    rowNames = new char*[noRows]; // a 1-d array with rows number of names
+    /** Initialize names **/
+    colNames = new char*[noCols];
+    rowNames = new char*[noRows];
     
     /** Set up Table Names **/
+    colNames = new char*[noCols];
+    rowNames = new char*[noRows];
     
-    colNames = new char*[noCols]; // a 1-d array with cols number of names
-    rowNames = new char*[noRows]; // a 1-d array with rows number of names
-    
-    for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
+    /** We're assuming that each name is no more than 100 characters **/
+    for (int i=0; i < 100; i++) {
         rowNames[i] = new char[100];
     }
     
-    for (int i=0; i < 100; i++) { //I am assuming that each name is no more than 100 characters
+    for (int i=0; i < 100; i++) {
         colNames[i] = new char[100];
     }
     
+    /** Default values are empty fields **/
     for (int i=0; i < noCols; i++) {
         colNames[i][0] = '\0';
     }
-    
-    // char e;
     
     for (int i=0; i < noRows; i++) {
         rowNames[i][0] = '\0';
@@ -96,13 +96,13 @@ DataFrame::DataFrame(int rows, int cols) { // DONE: CHECK IT
 
 // Sets up the table itself, getting names and contents
 void DataFrame::setUpTable() {
-    colNames = new char*[noCols]; // a 1-d array with cols number of names
-    rowNames = new char*[noRows]; // a 1-d array with rows number of names
+    colNames = new char*[noCols];
+    rowNames = new char*[noRows];
     
     /** Set up Table Names **/
     
-    colNames = new char*[noCols]; // a 1-d array with cols number of names
-    rowNames = new char*[noRows]; // a 1-d array with rows number of names
+    colNames = new char*[noCols];
+    rowNames = new char*[noRows];
     
     int j=0;
     char c;
@@ -115,6 +115,7 @@ void DataFrame::setUpTable() {
         colNames[i] = new char[100];
     }
     
+    /** Read in names char by char (Sridhar's code) **/
     for (int i=0; i < noCols; i++) {
         cin.get(c); //read the first character
         j = 0;
@@ -129,6 +130,7 @@ void DataFrame::setUpTable() {
     int k=0;
     char e;
     
+    /** Read in names char by char (Sridhar's code) **/
     for (int i=0; i < noRows; i++) {
         cin.get(e); //read the first character
         k = 0;
@@ -153,7 +155,7 @@ void DataFrame::setUpTable() {
 // - the contents of the table in dataframe
 void DataFrame::display() {
     
-    /** Column names **/
+    /** print Column names **/
     for (int i = 0; i < noCols; ++i) {
         cout << colNames[i];
         if (i != (noCols - 1)) {
@@ -162,8 +164,7 @@ void DataFrame::display() {
     }
     cout << "\n";
     
-    /** Row names **/
-    
+    /** print Row names **/
     for (int i = 0; i < noRows; ++i) {
         cout << rowNames[i];
         if (i != (noRows - 1)) {
@@ -172,7 +173,7 @@ void DataFrame::display() {
     }
     cout << "\n";
     
-    /** Table contents **/
+    /** print Table contents **/
     for (int i = 0; i < noRows; ++i) {
         for (int j = 0; j < noCols; ++j) {
             cout << table[i][j] << " ";
@@ -192,23 +193,25 @@ void DataFrame::setColName(int col, char* name) {
     colNames[col] = name;
 }
 
-int* DataFrame::operator[](int i) { // return row i
-    return table[i]; // return row i
+// return row i
+int* DataFrame::operator[](int i) {
+    return table[i];
 }
 
-char** DataFrame::getRowNames() { // DONE: CHECK IT
+/** Getter Methods **/
+char** DataFrame::getRowNames() {
     return rowNames;
 }
 
-char** DataFrame::getColNames() { // DONE: CHECK IT
+char** DataFrame::getColNames() {
     return colNames;
 }
 
-int DataFrame::getNumberRows() { // DONE: CHECK IT
+int DataFrame::getNumberRows() {
     return noRows;
 }
 
-int DataFrame::getNumberCols() { // DONE: CHECK IT
+int DataFrame::getNumberCols() {
     return noCols;
 }
 DataFrame* DataFrame::getColumns(int* columns, int cLen) {
@@ -220,7 +223,9 @@ DataFrame* DataFrame::getColumns(int* columns, int cLen) {
     
     /** Set up the table itself **/
     
-    (*temp).table = new int*[noRows]; // double pointers allow us to initialize an array of rows size where each element in the array has cols size.
+        // double pointers allow us to initialize an array of rows size where each element in the array has cols size.
+    (*temp).table = new int*[noRows];
+    
     
     for (int i = 0; i < noRows; ++i) {
         (*temp).table[i] = new int[cLen]; // each row has spaces for cLen
@@ -259,7 +264,7 @@ DataFrame* DataFrame::getColumns(int* columns, int cLen) {
     return temp;
 }
 
-DataFrame* DataFrame::getRows(int* rows, int rLen) { // CHECK IF CORRECT!
+DataFrame* DataFrame::getRows(int* rows, int rLen) {
     
     DataFrame* temp = new DataFrame();
     
@@ -306,6 +311,7 @@ DataFrame* DataFrame::getRows(int* rows, int rLen) { // CHECK IF CORRECT!
     
     return temp;
 }
+
 DataFrame* DataFrame::getRowsCols(int* rows, int rLen, int* cols, int cLen) {
     
     DataFrame* temp = new DataFrame();
